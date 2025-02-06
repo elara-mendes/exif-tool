@@ -1,10 +1,11 @@
+# pip install imageio
 import imageio.v3 as iio
 import exifread as ex
 from datetime import timezone, datetime
 import json
 
-caminho_imagem = '/content/SUPER XANDÃO - FORÇA E HONRA ~ O QUE FAZEMOS NA VIDA ECOA NA ETERNIDADE ~ BIBLICAL - 190Q.I - YouTube e mais 1 página - Pessoal — Microsoft​ Edge 06_02_2025 13_00_48.png'
-another_img = '/content/modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
+caminho_imagem = '/img/C:\Users\steva\exit-project\exif-tool\img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
+another_img = 'img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
 
 def Colors():
   TEXT_RED = '\033[31m'
@@ -19,13 +20,14 @@ def getLocate(img):
   with open(img, 'rb') as f:
     tags = ex.process_file(f)
     print(f'array length: {len(tags)}')
-    print(f'data: {tags}')
+    print(f'data: {tags}')  
 
 
     try:
       latitude = tags["GPS GPSLatitude"]
       longitude = tags["GPS GPSLongitude"]
-      locate(latitude, longitude)
+
+      # locate(latitude, longitude)
       # return latitude, longitude
     except KeyError:
       return f'{TEXT_RED}Não foi possível encontrar localização {TEXT_RESET}'
@@ -64,5 +66,16 @@ def read_data(img):
     print("Erro ao ler dados")
 
 
-read_data(caminho_imagem)
+read_data(another_img)
 getLocate(another_img)
+
+def locate(lat, lon):
+  import requests
+  api_key = 'd75cdc25dc703dcbdb6daf83c3a0f474'
+  url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
+  response = requests.get(url)
+  if response.status == 200:
+    data = response.json()
+    return data
+  else:
+    return f'{TEXT_RED} Erro ao retorna {TEXT_RESET}'
