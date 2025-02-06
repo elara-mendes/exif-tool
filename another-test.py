@@ -6,7 +6,7 @@ import json
 
 caminho_imagem = '/img/C:\Users\steva\exit-project\exif-tool\img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
 another_img = 'img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
-
+img = 'modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
 def Colors():
   TEXT_RED = '\033[31m'
   TEXT_GREEN = '\033[32m'
@@ -66,8 +66,9 @@ def read_data(img):
     print("Erro ao ler dados")
 
 
-read_data(another_img)
-getLocate(another_img)
+read_data(img)
+
+getLocate(img)
 
 def locate(lat, lon):
   import requests
