@@ -8,11 +8,11 @@ import re
 
 load_dotenv()
 # API key
-API-IA = 'AIzaSyAngJFO8F1ptgbzwdL8hWUvDYEG3c_Ltzc' 
-os.environ['API_KEY'] = API-IA
+API_IA = 'AIzaSyAngJFO8F1ptgbzwdL8hWUvDYEG3c_Ltzc' 
+os.environ['API_KEY'] = API_IA
 
 # API config
-ai.configure(api_key=API-IA)
+ai.configure(api_key=API_IA)
 
 # Create the model
 model = ai.GenerativeModel('gemini-pro')  
