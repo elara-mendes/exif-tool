@@ -1,5 +1,8 @@
 from exif import Image
-import webbrowser
+# import webbrowser
+import folium
+import streamlit as st
+from streamlit_folium import st_folium
 
 with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
@@ -8,9 +11,12 @@ with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
 
 # My ugly way!
 
-longitude_test = str(my_image.gps_longitude[0] + my_image.gps_longitude[1] / 60 + round(my_image.gps_longitude[2] / 3600, 5)).replace(".", "")
+longitude_test = my_image.gps_longitude[0] + (my_image.gps_longitude[1] / 60) + (my_image.gps_longitude[2] / 3600)
 
-longitude_test_str = longitude_test
+if my_image.gps_longitude_ref == "W":
+    longitude_test_str = "-" + str(longitude_test)
+else:
+    longitude_test_str = str(longitude_test)
 
 longitude_list_mode = [int(i) for i in longitude_test_str if i.isdigit()]
 
@@ -36,7 +42,10 @@ print(longitude_calc)
 
 latitude_test = my_image.gps_latitude[0] + (my_image.gps_latitude[1] / 60) + (my_image.gps_latitude[2] / 3600)
 
-latitude_test_str = str(latitude_test)
+if my_image.gps_latitude_ref == "S":
+    latitude_test_str = "-" + str(latitude_test)
+else:
+    latitude_test_str = str(latitude_test)
 
 latitude_list_mode = [int(i) for i in latitude_test_str if i.isdigit()]
 
@@ -52,5 +61,17 @@ else:
 
 print(latitude_calc)
 
-url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
-webbrowser.open_new(url)
+# url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
+# webbrowser.open_new(url)
+
+# maps_url = f"https://www.google.com/maps?q={latitude_calc.replace('-', '')},{longitude_calc.replace('-', '')}&output=embed"
+
+m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
+folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
+
+# Exibir o mapa no Streamlit
+st_data = st_folium(m, width=700, height=500)
+
+
+print(latitude_test_str)
+print(longitude_test_str)
