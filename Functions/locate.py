@@ -1,4 +1,4 @@
-import Colors
+import Functions.Colors as Colors
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 def locate(lat, lon):

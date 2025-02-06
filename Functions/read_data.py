@@ -1,7 +1,7 @@
 import imageio.v3 as iio
 from datetime import timezone, datetime
 import json
-import Colors
+import Functions.Colors as Colors
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 

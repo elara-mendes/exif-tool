@@ -1,5 +1,5 @@
 import imageio.v3 as iio
-import exifread as ex 
+import exifread as ex
 from datetime import timezone, datetime
 import json
 
