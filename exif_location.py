@@ -1,7 +1,7 @@
 from exif import Image
 import webbrowser
 
-with open('IMG_20250205_174349.jpg', 'rb') as image_file:
+with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
     print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
     print(f"Latitude: {my_image.gps_latitude} Ref: {my_image.gps_latitude_ref}")
@@ -52,8 +52,5 @@ else:
 
 print(latitude_calc)
 
-# url = f"https://api.openweathermap.org/data/2.5/weather?lat={float(latitude_test)}&lon={float(longitude_test)}&appid={api_key}"
-
-url = f"https://www.google.com.br/maps/place/{latitude_calc}+{longitude_calc}/"
-url3 = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
-webbrowser.open_new(url3)
+url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
+webbrowser.open_new(url)
