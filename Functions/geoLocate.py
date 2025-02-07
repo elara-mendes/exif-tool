@@ -8,7 +8,7 @@ def geoLocator(lat, lon):
     try:
         geoLocator = Nominatim(user_agent='my_geocoder')
         location = geoLocator.reverse((lat,lon), addressdetails=True, language='pt')
-        print(location.address)
+        # print(location.address)
         print(f'{TEXT_GREEN} {location.address} {TEXT_RESET}')
     except Exception as  err:
         print(f'{TEXT_RED} {err} {TEXT_RESET}') 
