@@ -3,6 +3,7 @@ from exif import Image
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
+from Functions.pythonGPT import pythonGPT
 
 with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
@@ -75,3 +76,5 @@ st_data = st_folium(m, width=700, height=500)
 
 print(latitude_test_str)
 print(longitude_test_str)
+
+pythonGPT(latitude_test_str, longitude_list_mode)
