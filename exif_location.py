@@ -139,7 +139,6 @@ folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").ad
 # Exibir o mapa no Streamlit
 st_data = st_folium(m, width=700, height=500)
 
-<<<<<<< HEAD
 
 print(type(latitude_test_str))
 print(type(longitude_test_str))
@@ -156,9 +155,3 @@ print(longitude_test_str)
 # print(type(longitude_test_str))
 # getLocation(lat, lon)
 # getLocate(latitude_test_str, longitude_test_str)
-=======
-print(latitude_test_str)
-print(longitude_test_str)
-
-pythonGPT(latitude_test_str, longitude_test_str)
->>>>>>> 8d1e0e6fbfcc4c6a492186a0cdd96d96297443ae
