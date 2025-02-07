@@ -11,9 +11,8 @@ from datetime import datetime
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 
-"""
-Evitando duplicação de texto no terminal, pelo PythonGPT pegar as mesmas informações.
-"""
+# Evitando duplicação de texto no terminal, pelo PythonGPT pegar as mesmas informações.
+
 with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
     # print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
