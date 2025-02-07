@@ -1,11 +1,9 @@
 from exif import Image
-# import webbrowser
 import requests
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
 from Functions.pythonGPT import pythonGPT
-# from Functions.getLocation import getLocation
 from Functions.Colors import Colors
 from geopy.geocoders import Nominatim
 from Functions.geoLocate import geoLocator
@@ -13,16 +11,15 @@ from datetime import datetime
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 
-
+"""
+Evitando duplicação de texto no terminal, pelo PythonGPT pegar as mesmas informações.
+"""
 with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
-    print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
-    print(f"Latitude: {my_image.gps_latitude} Ref: {my_image.gps_latitude_ref}")
-    print(f'Data e hora: {my_image.datetime_original}')
-    print(f'Celular : {my_image.make}')
-
-    # for data in my_image.get_all():
-    #     print(f'{data}')
+    # print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
+    # print(f"Latitude: {my_image.gps_latitude} Ref: {my_image.gps_latitude_ref}")
+    # print(f'Data e hora: {my_image.datetime_original}')
+    # print(f'Celular : {my_image.make}')
     
 horarioDaFoto = my_image.datetime_original
 horaFormatada = horarioDaFoto.replace(':','/')
@@ -30,9 +27,10 @@ print(horaFormatada)
 data, hora = horarioDaFoto.split(' ')
 celular = my_image.make
 modelo = my_image.model
+
 # My ugly way!
 
-print(f'{TEXT_RED} Coordinates {TEXT_RESET} ')
+print(f'{TEXT_RED} Informações {TEXT_RESET} ')
 
 longitude_test = my_image.gps_longitude[0] + (my_image.gps_longitude[1] / 60) + (my_image.gps_longitude[2] / 3600)
 
@@ -42,8 +40,8 @@ else:
     longitude_test_str = str(longitude_test)
 
 
-
 longitude_list_mode = [int(i) for i in longitude_test_str if i.isdigit()]
+
 # Minutes
 minutes = [0, longitude_list_mode[2],longitude_list_mode[3], longitude_list_mode[4], longitude_list_mode[5]]
 sub_minutes = int(("".join(str(i) for i in minutes)))*60
@@ -82,28 +80,12 @@ else:
     latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
 
-print(f'latitude_calc {latitude_calc}')
-
-print(type(latitude_calc))
-
-# lat = latitude_test
-# lon = longitude_test
-
-# Arábia Saudita 
-# endereco = geoLocator(lat, lon)
-
-# print(f'{latitude_calc} type {type(latitude_calc)}')
-# print(f'{longitude_calc} type {type(longitude_calc)}')
-# print(f'{longitude_test_str} type {type(longitude_test_str)}')
-# print(f'{longitude_list_mode} type {type(longitude_list_mode)}')
-
-
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
-# fix it
-geoLocator(latitude_test, longitude_test)
+# Fixed
+geoLocator(latitude_test_str, longitude_test_str)
 
-print(f'Locatização {latitude_calc} {longitude_calc}')
+print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
 print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
 
 pythonGPT(latitude_calc, longitude_calc)
@@ -113,13 +95,9 @@ print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_R
 
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
+# Streamlit below
 
-
-# url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
-# webbrowser.open_new(url)
-
-# maps_url = f"https://www.google.com/maps?q={latitude_calc.replace('-', '')},{longitude_calc.replace('-', '')}&output=embed"
-
+# OpenCage API for reverse searching
 @st.cache_data
 def get_address_opencage(lat, lon):
     with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
@@ -133,32 +111,10 @@ def get_address_opencage(lat, lon):
 
 endereco = get_address_opencage(latitude_test_str, longitude_test_str)
 st.title(endereco)
+
+# Folium
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
-# Exibir o mapa no Streamlit
+# Map Size
 st_data = st_folium(m, width=700, height=500)
-
-<<<<<<< HEAD
-
-print(type(latitude_test_str))
-print(type(longitude_test_str))
-
-print(latitude_test_str)
-print(longitude_test_str)
-
-# pythonGPT(latitude_test_str, longitude_test_str)
-
-# lat = float(latitude_test_str)
-# lon = float(longitude_test_str)
-
-# print(type(latitude_test_str))
-# print(type(longitude_test_str))
-# getLocation(lat, lon)
-# getLocate(latitude_test_str, longitude_test_str)
-=======
-print(latitude_test_str)
-print(longitude_test_str)
-
-pythonGPT(latitude_test_str, longitude_test_str)
->>>>>>> 8d1e0e6fbfcc4c6a492186a0cdd96d96297443ae
