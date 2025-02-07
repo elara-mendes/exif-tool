@@ -2,17 +2,21 @@
 import imageio.v3 as iio
 import exifread as ex
 from datetime import timezone, datetime
+from Functions.Colors import Colors
 import json
 
 caminho_imagem = '/img/C:\Users\steva\exit-project\exif-tool\img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
 another_img = 'img\modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
 img = 'modo serio - Search Images e mais 3 páginas - Pessoal — Microsoft​ Edge 05_02_2025 14_51_48.PNG'
-def Colors():
-  TEXT_RED = '\033[31m'
-  TEXT_GREEN = '\033[32m'
-  TEXT_YELLOW = '\033[33m'
-  TEXT_RESET = '\033[0m'
-  return TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET
+
+other_img = 'img/IMG_20250205_174349.jpg'
+
+# def Colors():
+#   TEXT_RED = '\033[31m'
+#   TEXT_GREEN = '\033[32m'
+#   TEXT_YELLOW = '\033[33m'
+#   TEXT_RESET = '\033[0m'
+#   return TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET
 
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
@@ -21,8 +25,6 @@ def getLocate(img):
     tags = ex.process_file(f)
     print(f'array length: {len(tags)}')
     print(f'data: {tags}')  
-
-
     try:
       latitude = tags["GPS GPSLatitude"]
       longitude = tags["GPS GPSLongitude"]
@@ -68,7 +70,7 @@ def read_data(img):
 
 read_data(img)
 
-getLocate(img)
+# getLocate(img)
 
 def locate(lat, lon):
   import requests

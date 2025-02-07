@@ -19,6 +19,7 @@ model = ai.GenerativeModel('gemini-pro')
 chat = model.start_chat()  
 
 def pythonGPT(lat, lon):
-    coord = f'what place is it {lat} {lon}'
+    # coord = f'what place is it {lat} {lon}'
+    coord = f'Which city is located at latitude {lat} and longitude {lon}? What is the current weather there?'
     response = chat.send_message(coord)
     print('Chatbot:', response.text)
