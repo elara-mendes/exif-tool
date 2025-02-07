@@ -1,5 +1,6 @@
 from exif import Image
 # import webbrowser
+import requests
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
@@ -67,14 +68,26 @@ print(latitude_calc)
 
 # maps_url = f"https://www.google.com/maps?q={latitude_calc.replace('-', '')},{longitude_calc.replace('-', '')}&output=embed"
 
+@st.cache_data
+def get_address_opencage(lat, lon):
+    with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
+        mykey = API_READ.read()
+    API_KEY = mykey
+    url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
+    response = requests.get(url)
+    data = response.json()
+    
+    return data['results'][0]['formatted'] if data['results'] else "Endereço não encontrado"
+
+endereco = get_address_opencage(latitude_test_str, longitude_test_str)
+st.title(endereco)
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
 # Exibir o mapa no Streamlit
 st_data = st_folium(m, width=700, height=500)
 
-
 print(latitude_test_str)
 print(longitude_test_str)
 
-pythonGPT(latitude_test_str, longitude_list_mode)
+pythonGPT(latitude_test_str, longitude_test_str)

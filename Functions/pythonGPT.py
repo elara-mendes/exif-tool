@@ -22,3 +22,4 @@ def pythonGPT(lat, lon):
     coord = f'what place is it {lat} {lon}'
     response = chat.send_message(coord)
     print('Chatbot:', response.text)
+    
