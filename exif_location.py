@@ -117,3 +117,20 @@ folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").ad
 
 # Map Size
 st_data = st_folium(m, width=700, height=500)
+
+
+print(type(latitude_test_str))
+print(type(longitude_test_str))
+
+print(latitude_test_str)
+print(longitude_test_str)
+
+# pythonGPT(latitude_test_str, longitude_test_str)
+
+# lat = float(latitude_test_str)
+# lon = float(longitude_test_str)
+
+# print(type(latitude_test_str))
+# print(type(longitude_test_str))
+# getLocation(lat, lon)
+# getLocate(latitude_test_str, longitude_test_str)
