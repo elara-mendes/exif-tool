@@ -82,7 +82,7 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 geoLocator(latitude_test_str, longitude_test_str)
 print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
 print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
-pythonGPT(latitude_calc, longitude_calc)
+# pythonGPT(latitude_calc, longitude_calc)
 # print(f'Celular: {celular}')
 # print(f'Modelo: {modelo}')
 # print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
@@ -96,8 +96,9 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 @st.cache_data
 def get_address_opencage(lat, lon):
     # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
-    with open('myAPI.txt', 'r') as API_READ:
+    with open(r'C:\Users\steva\exit-project\exif-tool\myAPI.txt', 'r') as API_READ:
         mykey = API_READ.read()
+        print(f'api key {mykey}')
     API_KEY = mykey
     url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
     response = requests.get(url)
@@ -105,12 +106,26 @@ def get_address_opencage(lat, lon):
     
     return data['results'][0]['formatted'] if data['results'] else "Endereço não encontrado"
 
+if 'counter' not in st.session_state:
+    st.session_state.counter = 0
+
+st.session_state.counter += 1
+st.write(f"This page has run {st.session_state.counter} times.")
+
 endereco = get_address_opencage(latitude_test_str, longitude_test_str)
 st.title(endereco)
+st.write(latitude_calc, longitude_calc)
+
+st.sidebar.title('sidebar title')
+
+st.sidebar.write(f'marca e modelo |{celular.upper()} {modelo.upper()}')
 
 # Folium
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
+st.write(f'Dia: {data}')
+st.write(f'Hora: {hora}')
+st.write(f'Marca e modelo {celular}, {modelo}')
 # Exibir o mapa no Streamlit
 st_data = st_folium(m, width=700, height=500)
