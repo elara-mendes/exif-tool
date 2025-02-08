@@ -1,14 +1,16 @@
 from geopy.geocoders import Nominatim
 from Functions.Colors import Colors
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
+import streamlit as st
 # pip install geopy
 # pip install opencage
 
+@st.cache_data
 def geoLocator(lat, lon):
     try:
-        geoLocator = Nominatim(user_agent='my_geocoder')
+        geoLocator = Nominatim(user_agent='my_geocoder', timeout=10)
         location = geoLocator.reverse((lat,lon), addressdetails=True, language='pt')
-        print(location.address)
+        # print(location.address)
         print(f'{TEXT_GREEN} {location.address} {TEXT_RESET}')
     except Exception as  err:
         print(f'{TEXT_RED} {err} {TEXT_RESET}') 

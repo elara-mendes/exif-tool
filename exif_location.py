@@ -1,5 +1,4 @@
 from exif import Image
-# import webbrowser
 import requests
 import folium
 import streamlit as st
@@ -12,16 +11,14 @@ from datetime import datetime
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 
+# Evitando duplicação de texto no terminal, pelo PythonGPT pegar as mesmas informações.
 
 with open('img/IMG_20250205_174349.jpg', 'rb') as image_file:
     my_image = Image(image_file)
-    print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
-    print(f"Latitude: {my_image.gps_latitude} Ref: {my_image.gps_latitude_ref}")
-    print(f'Data e hora: {my_image.datetime_original}')
-    print(f'Celular : {my_image.make}')
-
-    # for data in my_image.get_all():
-    #     print(f'{data}')
+    # print(f"Longitude: {my_image.gps_longitude} Ref: {my_image.gps_longitude_ref}")
+    # print(f"Latitude: {my_image.gps_latitude} Ref: {my_image.gps_latitude_ref}")
+    # print(f'Data e hora: {my_image.datetime_original}')
+    # print(f'Celular : {my_image.make}')
     
 horarioDaFoto = my_image.datetime_original
 horaFormatada = horarioDaFoto.replace(':','/')
@@ -29,9 +26,10 @@ print(horaFormatada)
 data, hora = horarioDaFoto.split(' ')
 celular = my_image.make
 modelo = my_image.model
+
 # My ugly way!
 
-print(f'{TEXT_RED} Coordinates {TEXT_RESET} ')
+print(f'{TEXT_RED} Informações {TEXT_RESET} ')
 
 longitude_test = my_image.gps_longitude[0] + (my_image.gps_longitude[1] / 60) + (my_image.gps_longitude[2] / 3600)
 
@@ -41,6 +39,7 @@ else:
     longitude_test_str = str(longitude_test)
 
 longitude_list_mode = [int(i) for i in longitude_test_str if i.isdigit()]
+
 # Minutes
 minutes = [0, longitude_list_mode[2],longitude_list_mode[3], longitude_list_mode[4], longitude_list_mode[5]]
 sub_minutes = int(("".join(str(i) for i in minutes)))*60
@@ -79,17 +78,14 @@ else:
 
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
-# fix it
-geoLocator(latitude_test, longitude_test)
-
-print(f'Locatização {latitude_calc} {longitude_calc}')
+# Fixed
+geoLocator(latitude_test_str, longitude_test_str)
+print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
 print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
-
 pythonGPT(latitude_calc, longitude_calc)
-print(f'Celular: {celular}')
-print(f'Modelo: {modelo}')
-print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
-
+# print(f'Celular: {celular}')
+# print(f'Modelo: {modelo}')
+# print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
 # url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
@@ -99,7 +95,8 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
 @st.cache_data
 def get_address_opencage(lat, lon):
-    with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
+    # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
+    with open('myAPI.txt', 'r') as API_READ
         mykey = API_READ.read()
     API_KEY = mykey
     url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
@@ -110,6 +107,8 @@ def get_address_opencage(lat, lon):
 
 endereco = get_address_opencage(latitude_test_str, longitude_test_str)
 st.title(endereco)
+
+# Folium
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
