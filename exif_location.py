@@ -96,7 +96,7 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 @st.cache_data
 def get_address_opencage(lat, lon):
     # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
-    with open('myAPI.txt', 'r') as API_READ
+    with open('myAPI.txt', 'r') as API_READ:
         mykey = API_READ.read()
     API_KEY = mykey
     url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
