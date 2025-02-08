@@ -3,13 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 .env
-/Lib
-/.idea
-/idea
-.idea
 # C extensions
 *.so
-
+myAPI
+/myAPI
 # Distribution / packaging
 .Python
 build/

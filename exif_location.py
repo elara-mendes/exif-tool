@@ -5,7 +5,6 @@ import folium
 import streamlit as st
 from streamlit_folium import st_folium
 from Functions.pythonGPT import pythonGPT
-# from Functions.getLocation import getLocation
 from Functions.Colors import Colors
 from geopy.geocoders import Nominatim
 from Functions.geoLocate import geoLocator
@@ -41,8 +40,6 @@ if my_image.gps_longitude_ref == "W":
 else:
     longitude_test_str = str(longitude_test)
 
-
-
 longitude_list_mode = [int(i) for i in longitude_test_str if i.isdigit()]
 # Minutes
 minutes = [0, longitude_list_mode[2],longitude_list_mode[3], longitude_list_mode[4], longitude_list_mode[5]]
@@ -59,7 +56,6 @@ else:
     longitude_calc = f"""{longitude_list_mode[0]}{longitude_list_mode[1]}º{ml[0]}{ml[1]}'{ml_fm[:2] + "." + ml_fm[2:]}"{my_image.gps_longitude_ref}"""
 
 # 43 degrees / 24.906(0.4151/60) / 24 minutes / 906 remainder(*60) / 54.36 seconds = 43º24'54.36" W // Calc here!
-
 # Smart way!
 
 latitude_test = my_image.gps_latitude[0] + (my_image.gps_latitude[1] / 60) + (my_image.gps_latitude[2] / 3600)
@@ -81,23 +77,6 @@ if my_image.gps_latitude_ref == "S":
 else:
     latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
-
-print(f'latitude_calc {latitude_calc}')
-
-print(type(latitude_calc))
-
-# lat = latitude_test
-# lon = longitude_test
-
-# Arábia Saudita 
-# endereco = geoLocator(lat, lon)
-
-# print(f'{latitude_calc} type {type(latitude_calc)}')
-# print(f'{longitude_calc} type {type(longitude_calc)}')
-# print(f'{longitude_test_str} type {type(longitude_test_str)}')
-# print(f'{longitude_list_mode} type {type(longitude_list_mode)}')
-
-
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
 # fix it
@@ -112,8 +91,6 @@ print(f'Modelo: {modelo}')
 print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
 
 print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
-
-
 
 # url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
 # webbrowser.open_new(url)
@@ -138,20 +115,3 @@ folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").ad
 
 # Exibir o mapa no Streamlit
 st_data = st_folium(m, width=700, height=500)
-
-
-print(type(latitude_test_str))
-print(type(longitude_test_str))
-
-print(latitude_test_str)
-print(longitude_test_str)
-
-# pythonGPT(latitude_test_str, longitude_test_str)
-
-# lat = float(latitude_test_str)
-# lon = float(longitude_test_str)
-
-# print(type(latitude_test_str))
-# print(type(longitude_test_str))
-# getLocation(lat, lon)
-# getLocate(latitude_test_str, longitude_test_str)
