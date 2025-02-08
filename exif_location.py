@@ -84,15 +84,15 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 # Fixed
 geoLocator(latitude_test_str, longitude_test_str)
 
-print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
-print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
+# print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
+# print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
 
-pythonGPT(latitude_calc, longitude_calc)
-print(f'Celular: {celular}')
-print(f'Modelo: {modelo}')
-print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
+# pythonGPT(latitude_calc, longitude_calc)
+# print(f'Celular: {celular}')
+# print(f'Modelo: {modelo}')
+# print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
 
-print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
+# print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
 # Streamlit below
 
