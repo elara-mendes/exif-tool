@@ -136,7 +136,6 @@ match now:
         st.write("🌃 Good night!")
 
 # todayInfo = datetime.today
-# print(todayInfo)
 
 # Folium
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
@@ -152,7 +151,6 @@ folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").ad
 # ================================================
 address_details = geoLocator(latitude_test_str, longitude_test_str)
 
-# print(f'{TEXT_GREEN} {current} {TEXT_RESET}')
 
 st.sidebar.title('More infos')
 st.sidebar.markdown(textColor(f'Marca e Modelo do celular: {celular.upper()}, {modelo.upper()}', 'green'), unsafe_allow_html=True)
