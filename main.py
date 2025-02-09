@@ -115,8 +115,15 @@ if my_image and my_image.has_exif:
     horarioDaFoto = my_image.datetime_original
     horaFormatada = horarioDaFoto.replace(':','/')
     data, hora = horarioDaFoto.split(' ')
-    celular = my_image.make
-    modelo = my_image.model
+    if hasattr(my_image, 'make'):
+        celular = str(my_image.make)
+    else:
+        celular = "Marca não disponível"
+
+    if hasattr(my_image, 'model'):
+        modelo = str(my_image.model)
+    else:
+        modelo = "Modelo não disponível"
 
     if longitude_calc and latitude_calc:
         print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
