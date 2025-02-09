@@ -3,11 +3,6 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 api_key = os.getenv("API_WEATHER")
-latitude = -23.55052
-longitude = -46.633308
-# weather_info = getWeather(latitude, longitude)
-# print(weather_info)
-
 def getWeather(lat, lon):
     url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric&lang=pt'
     response = requests.get(url)
@@ -22,6 +17,3 @@ def getWeather(lat, lon):
         print(f"Erro na chamada à API: {response.status_code}")
         print(f"Resposta da API: {response.text}")
         return f"Não foi possível obter informações sobre o clima. {data}"
-
-weather_info = getWeather(latitude, longitude)
-print(weather_info)

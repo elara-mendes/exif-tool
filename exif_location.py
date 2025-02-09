@@ -6,6 +6,8 @@ from streamlit_folium import st_folium
 from datetime import datetime
 from Functions.pythonGPT import knowMore
 from Functions.textColor import textColor
+from Functions.Colors import Colors
+TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 from Functions.todayInfo import displayTime
 import os
 
@@ -112,33 +114,35 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 # maps_url = f"https://www.google.com/maps?q={latitude_calc.replace('-', '')},{longitude_calc.replace('-', '')}&output=embed"
 @st.cache_data
 def get_address_opencage(lat, lon):
-    with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
-        mykey = API_READ.read()
-    API_KEY = mykey
-    url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
+    # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
+    #     mykey = API_READ.read()
+    # API_KEY = mykey 
+    API = os.getenv('API')
+    url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API}"
     response = requests.get(url)
     data = response.json()
     
     return data['results'][0]['formatted'] if data['results'] else "Endereço não encontrado"
 
-@st.cache_data
-def get_weather(lat, lon):
-    with open(r"C:\Users\Elara\Documents\weatherAPI.txt", "r") as API_READ:
-        weather_key = API_READ.read()
-    API_KEY = weather_key
-    url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
-    response = requests.get(url)
-    data = response.json()
+# @st.cache_data
+# def get_weather(lat, lon):
+#     with open(r"C:\Users\Elara\Documents\weatherAPI.txt", "r") as API_READ:
+#         weather_key = API_READ.read()
+#     API_KEY = weather_key
+#     url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
+#     response = requests.get(url)
+#     data = response.json()
     
-    if data['cod'] == 200:
-        weather_description = data['weather'][0]['description']
-        temperature = data['main']['temp']
-        return f"{weather_description.capitalize()}, {temperature}°C"
-    else:
-        return "Clima não encontrado"
+#     if data['cod'] == 200:
+#         weather_description = data['weather'][0]['description']
+#         temperature = data['main']['temp']
+#         return f"{weather_description.capitalize()}, {temperature}°C"
+#     else:
+#         return "Clima não encontrado"
 
-if 'counter' not in st.session_state:
-    st.session_state.counter = 0
+# if 'counter' not in st.session_state:
+#     st.session_state.counter = 0
+
 
 st.session_state.counter += 1
 st.write(f"This page has run {st.session_state.counter} times.")

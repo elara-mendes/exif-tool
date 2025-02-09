@@ -12,7 +12,9 @@ from Functions.pythonGPT import knowMore
 from Functions.textColor import textColor
 from Functions.todayInfo import displayTime
 from Functions.getWeather import getWeather
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 # Evitando duplicação de texto no terminal, pelo PythonGPT pegar as mesmas informações.
@@ -98,11 +100,12 @@ print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 @st.cache_data
 def get_address_opencage(lat, lon):
     # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
-    with open(r'C:\Users\steva\exit-project\exif-tool\myAPI.txt', 'r') as API_READ:
-        mykey = API_READ.read()
+    # with open(r'C:\Users\steva\exit-project\exif-tool\myAPI.txt', 'r') as API_READ:
+        # mykey = API_READ.read()
         # print(f'api key {mykey}')
-    API_KEY = mykey
-    url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
+    # API_KEY = mykey
+    api_key = os.gatenv('API')
+    url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={api_key}"
     response = requests.get(url)
     data = response.json()
     
