@@ -44,7 +44,8 @@ if img_path:
     except Exception as e:
         st.error(f"Erro ao carregar a imagem: {e}")
 else:
-    st.error("Nenhuma imagem foi carregada.") 
+    st.error("Nenhuma imagem foi carregada.")
+    st.warning('Adione uma imagem, por favor')
     img_path = None
 
 def longitude():
