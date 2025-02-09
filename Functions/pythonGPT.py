@@ -23,4 +23,9 @@ def pythonGPT(lat, lon):
     coord = f'Which city is located at latitude {lat} and longitude {lon}? What is the current weather there?'
     response = chat.send_message(coord)
     print('Chatbot:', response.text)
-    
+
+
+def knowMore(lat, lon):
+    question = f'Provide detailed information about the place at latitude {lat} and longitude {lon}, including historical facts and points of interest.'
+    response = chat.send_message(question)    
+    return response.text

@@ -8,6 +8,9 @@ from Functions.Colors import Colors
 from geopy.geocoders import Nominatim
 from Functions.geoLocate import geoLocator
 from datetime import datetime
+from Functions.pythonGPT import knowMore
+from Functions.textColor import textColor
+from Functions.todayInfo import displayTime
 TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 
@@ -76,12 +79,15 @@ if my_image.gps_latitude_ref == "S":
 else:
     latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
-print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 
+
+
+
+print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
 # Fixed
-geoLocator(latitude_test_str, longitude_test_str)
 print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
 print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
+# knowMore(latitude_test_str, longitude_test_str)
 # pythonGPT(latitude_calc, longitude_calc)
 # print(f'Celular: {celular}')
 # print(f'Modelo: {modelo}')
@@ -98,7 +104,7 @@ def get_address_opencage(lat, lon):
     # with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
     with open(r'C:\Users\steva\exit-project\exif-tool\myAPI.txt', 'r') as API_READ:
         mykey = API_READ.read()
-        print(f'api key {mykey}')
+        # print(f'api key {mykey}')
     API_KEY = mykey
     url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={API_KEY}"
     response = requests.get(url)
@@ -116,16 +122,53 @@ endereco = get_address_opencage(latitude_test_str, longitude_test_str)
 st.title(endereco)
 st.write(latitude_calc, longitude_calc)
 
-st.sidebar.title('sidebar title')
 
-st.sidebar.write(f'marca e modelo |{celular.upper()} {modelo.upper()}')
+now = datetime.now()
+match now:
+    case n if n.hour < 12:
+        st.sidebar.warning('Bom Dia ☀️', icon='😎')
+    case n if 12 <= n.hour < 18:
+        st.sidebar.info("Boa Tarde! 🌞", icon='😃')
+    case n if 18 <= n.hour < 22:
+        st.sidebar.info("Boa Noite! 🌜", icon='🌙')
+    case _:
+        st.sidebar.info("Good night! 🌙", icon='🌟')
+
+# todayInfo = datetime.today
+# print(todayInfo)
 
 # Folium
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
-st.write(f'Dia: {data}')
-st.write(f'Hora: {hora}')
-st.write(f'Marca e modelo {celular}, {modelo}')
+# change text color 
+
+# do u prefer purple or green?
+# purple = 1 
+# green = ?
+
+#                      SIDEBAR
+# ================================================
+address_details = geoLocator(latitude_test_str, longitude_test_str)
+
+# print(f'{TEXT_GREEN} {current} {TEXT_RESET}')
+
+st.sidebar.title('More infos')
+st.sidebar.markdown(textColor(f'Marca e Modelo do celular: {celular.upper()}, {modelo.upper()}', 'green'), unsafe_allow_html=True)
+# st.sidebar.write(f'Marca e modelo |{celular.upper()} {modelo.upper()}')
+st.sidebar.markdown(textColor(f'Hora: {hora}', 'green'),unsafe_allow_html=True )
+st.sidebar.markdown(textColor(f'Dia: {data}', 'purple'), unsafe_allow_html=True)
+
+# we have to create a function to get this file using st.file.uploader
+st.sidebar.image('img/IMG_20250205_174349.jpg')
+# displayTime()
+chat = knowMore(latitude_test_str, longitude_test_str)
+if st.sidebar.button('Know more'):
+    st.sidebar.write(f'Renata:\n  {chat}')
+
+st.sidebar.write(address_details)
+st.sidebar.audio('img\90sFlav - Call me.mp3', autoplay=True, loop=True)
+# ================================================
+
 # Exibir o mapa no Streamlit
 st_data = st_folium(m, width=700, height=500)
