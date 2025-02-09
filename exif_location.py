@@ -159,6 +159,7 @@ st.sidebar.write(f'marca e modelo |{celular.upper()} {modelo.upper()}')
 m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
 folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
 
+
 st.write(f'Dia: {data}')
 st.write(f'Hora: {hora}')
 st.write(f'Marca e modelo {celular}, {modelo}')

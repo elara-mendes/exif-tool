@@ -48,8 +48,8 @@ else:
     st.warning('Adione uma imagem, por favor')
     img_path = None
 
+
 def longitude():
-    try:
         if not my_image.has_exif:
             st.error("A imagem não contém dados EXIF.")
             return None, None
@@ -79,12 +79,8 @@ def longitude():
             longitude_calc = f"""{longitude_list_mode[0]}{longitude_list_mode[1]}º{ml[0]}{ml[1]}'{ml_fm[:2] + "." + ml_fm[2:]}"{my_image.gps_longitude_ref}"""
 
         return longitude_calc, longitude_test_str
-    except Exception as e:
-        st.error(f"Erro ao calcular a longitude: {e}")
-        return None, None
 
 def latitude():
-    try:
         if not my_image.has_exif:
             st.error("A imagem não contém dados EXIF.")
             return None, None
@@ -113,36 +109,29 @@ def latitude():
             latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
         return latitude_calc, latitude_test_str
-    except Exception as e:
-        st.error(f"Erro ao calcular a latitude: {e}")
-        return None, None
 
-if my_image:
+if my_image and my_image.has_exif:
     longitude_calc, longitude_test_str = longitude()
     latitude_calc, latitude_test_str = latitude()
+    
+    horarioDaFoto = my_image.datetime_original
+    horaFormatada = horarioDaFoto.replace(':','/')
+    data, hora = horarioDaFoto.split(' ')
+    celular = my_image.make
+    modelo = my_image.model
 
     if longitude_calc and latitude_calc:
         print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
-
-        # Fixed
         print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
         print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
-        # knowMore(latitude_test_str, longitude_test_str)
-        # pythonGPT(latitude_calc, longitude_calc)
-        # print(f'Celular: {celular}')
-        # print(f'Modelo: {modelo}')
-        # print(f'Data: {TEXT_YELLOW} {data}{TEXT_RESET}\nHora: {TEXT_YELLOW}{hora}{TEXT_RESET}')
         print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
-
-        # url = f"https://www.google.com/maps/search/{latitude_calc.replace('-', '')} {longitude_calc.replace('-', '')}"
-        # webbrowser.open_new(url)
-
-        # maps_url = f"https://www.google.com/maps?q={latitude_calc.replace('-', '')},{longitude_calc.replace('-', '')}&output=embed"
-
+        
         @st.cache_data
         def get_address_opencage(lat, lon):
             try:
-                api_key = os.getenv('API')
+                with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
+                    my_api = API_READ.read()
+                api_key = my_api
                 url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={api_key}"
                 response = requests.get(url)
                 data = response.json()
@@ -150,7 +139,6 @@ if my_image:
                 return data['results'][0]['formatted'] if data['results'] else "Endereço não encontrado"
             except Exception as e:
                 st.error(f"Erro ao obter o endereço: {e}")
-                return "Erro ao obter o endereço"
 
         if 'counter' not in st.session_state:
             st.session_state.counter = 0
@@ -176,31 +164,20 @@ if my_image:
             case _:
                 st.write("🌃 Good night!")
 
-        # todayInfo = datetime.today
-
         # Folium
         m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
         folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
-
-        # change text color 
-
-        # do u prefer purple or green?
-        # purple = 1 
-        # green = ?
-
+        
         #                      SIDEBAR
         # ================================================
         address_details = geoLocator(latitude_test_str, longitude_test_str)
 
         st.sidebar.title('More infos')
         st.sidebar.markdown(textColor(f'Marca e Modelo do celular: {celular.upper()}, {modelo.upper()}', 'green'), unsafe_allow_html=True)
-        # st.sidebar.write(f'Marca e modelo |{celular.upper()} {modelo.upper()}')
         st.sidebar.markdown(textColor(f'Hora: {current_hour}', 'green'),unsafe_allow_html=True )
         st.sidebar.markdown(textColor(f'Dia: {data}', 'purple'), unsafe_allow_html=True)
 
-        # we have to create a function to get this file using st.file.uploader
         st.sidebar.image(img_path)
-        # displayTime()
         chat = knowMore(latitude_test_str, longitude_test_str)
         if st.sidebar.button('Know more'):
             st.sidebar.write(f'Renata:\n  {chat}')
