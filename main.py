@@ -174,11 +174,18 @@ if my_image and my_image.has_exif:
         #                      SIDEBAR
         # ================================================
 
-        st.sidebar.title('Informações')
-        st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
-        st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
-        st.sidebar.markdown(f"**Latitude**: {latitude_calc}")
-        st.sidebar.markdown(f"**Longitude**:{longitude_calc}")
+        # st.sidebar.title('Informações')
+        # st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
+        # st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
+        # st.sidebar.markdown(f"**Latitude**: {latitude_calc}")
+        # st.sidebar.markdown(f"**Longitude**:{longitude_calc}")
+        
+        st.write(f'Latitude: {latitude_calc}')
+        st.write(f'Longitude: {longitude_calc}')
+        st.write(f'Data: {new_data_obj}')
+        st.write(f'Hora: {hora}')
+        st.write(f'Marca: {celular.capitalize()}')
+        st.write(f'Modelo: {modelo.title()}')
 
         # Exibir o mapa no Streamlit
         st_data = st_folium(m, width=700, height=500)
