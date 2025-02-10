@@ -103,10 +103,11 @@ def latitude():
             latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
         return latitude_calc, latitude_test_str
-    
-if not my_image.has_exif:
-    st.error("A imagem não contém dados EXIF.")
-    st.stop()
+
+if my_image is not None:  
+    if not my_image.has_exif:
+        st.error("A imagem não contém dados EXIF.")
+        st.stop()
 
 if my_image and my_image.has_exif:
     longitude_calc, longitude_test_str = longitude()
@@ -128,7 +129,7 @@ if my_image and my_image.has_exif:
             try:
                 with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
                     my_api = API_READ.read()
-                api_key = my_api
+                api_key = "ab"
                 url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={api_key}"
                 response = requests.get(url)
                 data = response.json()
