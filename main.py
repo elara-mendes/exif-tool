@@ -162,6 +162,7 @@ if my_image and my_image.has_exif:
         # ================================================
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         # st.sidebar.title('Informações')
         # st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
         # st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
@@ -175,6 +176,8 @@ if my_image and my_image.has_exif:
         st.write(f'Marca: {celular.capitalize()}')
         st.write(f'Modelo: {modelo.title()}')
 =======
+=======
+>>>>>>> Stashed changes
         st.write('Informações')
         st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
         st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
