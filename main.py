@@ -80,7 +80,7 @@ def latitude():
             return None, None
         
         if not hasattr(my_image, 'gps_latitude') or not hasattr(my_image, 'gps_latitude_ref'):
-            st.error("A imagem não contém informações de latitude ou longitude.")
+            st.error("A imagem não contém informações de GPS")
             return None, None
         
         latitude_test = my_image.gps_latitude[0] + (my_image.gps_latitude[1] / 60) + (my_image.gps_latitude[2] / 3600)
@@ -103,24 +103,24 @@ def latitude():
             latitude_calc = f"{latitude_list_mode[0]}{latitude_list_mode[1]}º{minutes}'{seconds}\"{my_image.gps_latitude_ref}"
 
         return latitude_calc, latitude_test_str
+    
+if not my_image.has_exif:
+    st.error("A imagem não contém dados EXIF.")
+    st.stop()
 
 if my_image and my_image.has_exif:
     longitude_calc, longitude_test_str = longitude()
     latitude_calc, latitude_test_str = latitude()
     
-    horarioDaFoto = my_image.datetime_original
-    horaFormatada = horarioDaFoto.replace(':','/')
-    data, hora = horarioDaFoto.split(' ')
+    if hasattr(my_image, 'datetime_original'):
+        horarioDaFoto = my_image.datetime_original
+        data, hora = horarioDaFoto.split(' ')
+    else:
+        horarioDaFoto = "Data não disponível"
+        data, hora = "Desconhecido", "Desconhecido"
     
-    if hasattr(my_image, 'make'):
-        celular = str(my_image.make)
-    else:
-        celular = "Marca não disponível"
-
-    if hasattr(my_image, 'model'):
-        modelo = str(my_image.model)
-    else:
-        modelo = "Modelo não disponível"       
+    celular = getattr(my_image, 'make', "Marca não disponível")
+    modelo = getattr(my_image, 'model', "Modelo não disponível")      
 
     if longitude_calc and latitude_calc:
         @st.cache_data
@@ -160,33 +160,20 @@ if my_image and my_image.has_exif:
         
         #                      SIDEBAR
         # ================================================
-        # st.sidebar.title('Informações')
-        # st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
-        # st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
-        # st.sidebar.markdown(f"**Latitude**: {latitude_calc}")
-        # st.sidebar.markdown(f"**Longitude**:{longitude_calc}")
-        
-        st.write(f'Latitude: {latitude_calc}')
-        st.write(f'Longitude: {longitude_calc}')
-        st.write(f'Data: {new_data_obj}')
-        st.write(f'Hora: {hora}')
-        st.write(f'Marca: {celular.capitalize()}')
-        st.write(f'Modelo: {modelo.title()}')
-
-        st.write('Informações')
+        st.sidebar.markdown('**Informações**')
         st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
         st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
         st.sidebar.markdown(f"**Latitude**: {latitude_calc}")
-        st.sidebar.markdown(f"**Longitude**:{longitude_calc}")
+        st.sidebar.markdown(f"**Longitude**: {longitude_calc}")
 
         # Exibir o mapa no Streamlit
         st_data = st_folium(m, width=700, height=500)
         
-        if 'counter' not in st.session_state:
-            st.session_state.counter = 0
+        # if 'counter' not in st.session_state:
+        #     st.session_state.counter = 0
 
-        st.session_state.counter += 1
-        st.write(f"A página foi carregada {st.session_state.counter} vezes.")
+        # st.session_state.counter += 1
+        # st.write(f"A página foi carregada {st.session_state.counter} vezes.")
 
         weather = getWeather(latitude_test_str, longitude_test_str)
         
