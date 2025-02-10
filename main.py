@@ -3,18 +3,14 @@ import requests
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
-from Functions.Colors import Colors
 from geopy.geocoders import Nominatim
-from Functions.geoLocate import geoLocator
 from datetime import datetime
-from Functions.pythonGPT import knowMore
-from Functions.textColor import textColor
 from Functions.getWeather import getWeather
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
-TEXT_RED, TEXT_GREEN, TEXT_YELLOW, TEXT_RESET = Colors()
 
 def upload_image():
     uploaded_file = st.file_uploader("Escolha uma imagem", type=["png", "jpg", "jpeg"])
@@ -43,7 +39,7 @@ if img_path:
         st.error(f"Erro ao carregar a imagem: {e}")
 else:
     st.error("Nenhuma imagem foi carregada.")
-    st.warning('Adione uma imagem, por favor')
+    st.warning('Adicione uma imagem, por favor.')
     img_path = None
 
 
@@ -115,6 +111,7 @@ if my_image and my_image.has_exif:
     horarioDaFoto = my_image.datetime_original
     horaFormatada = horarioDaFoto.replace(':','/')
     data, hora = horarioDaFoto.split(' ')
+    
     if hasattr(my_image, 'make'):
         celular = str(my_image.make)
     else:
@@ -123,14 +120,9 @@ if my_image and my_image.has_exif:
     if hasattr(my_image, 'model'):
         modelo = str(my_image.model)
     else:
-        modelo = "Modelo não disponível"
+        modelo = "Modelo não disponível"       
 
     if longitude_calc and latitude_calc:
-        print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
-        print(f'Latitude: {latitude_calc} Longitude: {longitude_calc}')
-        print(f'{TEXT_YELLOW} PYTHON GPT {TEXT_RESET}')
-        print(f'{TEXT_YELLOW}={TEXT_RESET}'*60)
-        
         @st.cache_data
         def get_address_opencage(lat, lon):
             try:
@@ -144,12 +136,6 @@ if my_image and my_image.has_exif:
                 return data['results'][0]['formatted'] if data['results'] else "Endereço não encontrado"
             except Exception as e:
                 st.error(f"Erro ao obter o endereço: {e}")
-
-        # if 'counter' not in st.session_state:
-        #     st.session_state.counter = 0
-
-        # st.session_state.counter += 1
-        # st.write(f"This page has run {st.session_state.counter} times.")
 
         endereco = get_address_opencage(latitude_test_str, longitude_test_str)
         st.title(endereco)
@@ -170,10 +156,12 @@ if my_image and my_image.has_exif:
         # Folium
         m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)
         folium.Marker([latitude_test_str, longitude_test_str], popup="Localização").add_to(m)
+    
         
         #                      SIDEBAR
         # ================================================
 
+<<<<<<< Updated upstream
         # st.sidebar.title('Informações')
         # st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
         # st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
@@ -186,10 +174,23 @@ if my_image and my_image.has_exif:
         st.write(f'Hora: {hora}')
         st.write(f'Marca: {celular.capitalize()}')
         st.write(f'Modelo: {modelo.title()}')
+=======
+        st.write('Informações')
+        st.sidebar.markdown(f'**Marca**: {celular.capitalize()}')
+        st.sidebar.markdown(f'**Modelo**: {modelo.title()}')
+        st.sidebar.markdown(f"**Latitude**: {latitude_calc}")
+        st.sidebar.markdown(f"**Longitude**:{longitude_calc}")
+>>>>>>> Stashed changes
 
         # Exibir o mapa no Streamlit
         st_data = st_folium(m, width=700, height=500)
+        
+        if 'counter' not in st.session_state:
+            st.session_state.counter = 0
 
-        weather = getWeather(latitude_test_str,longitude_test_str)
+        st.session_state.counter += 1
+        st.write(f"A página foi carregada {st.session_state.counter} vezes.")
+
+        weather = getWeather(latitude_test_str, longitude_test_str)
         
         st.sidebar.write(weather)
