@@ -53,12 +53,23 @@ streamlit run main.py
 ```
 2. Upload an image and view the extracted information!
 
-## 🔑 API Configuration
-Before running the project, configure your **API keys**:
-- **OpenWeather**: Get a key from [https://openweathermap.org/](https://openweathermap.org/)
-- **OpenCage**: Get a key from [https://opencagedata.com/](https://opencagedata.com/)
+Sure! Here's the revised API configuration section in English with more details:
 
-Add these keys where necessary in the code.
+---
+
+## 🔑 API Configuration
+
+Before running the project, you need to set up **API keys** for the following services:
+
+- **OpenWeather**: Sign up and get your API key from [OpenWeather](https://openweathermap.org/).
+- **OpenCage**: Sign up and get your API key from [OpenCage](https://opencagedata.com/).
+
+### Setting up the Keys:
+1. After obtaining your API keys, add them to the respective files:
+   - The **OpenWeather** API key is used in `Functions/getWeather.py`.
+   - The **OpenCage** API key is defined in `main.py`.
+   
+2. Replace the placeholder `"YOUR API KEY HERE"` with your actual API keys in both files.
 
 ## 🤝 Contributors
 - [@stevopablo](https://github.com/stevopablo)
