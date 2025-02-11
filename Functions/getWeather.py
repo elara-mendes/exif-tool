@@ -1,11 +1,8 @@
 import requests
-from dotenv import load_dotenv
-import os
 import streamlit as st
 
 
-load_dotenv()
-api_key = os.getenv("API_WEATHER")
+api_key = "Your API Key"
 
 @st.cache_data
 def getWeather(lat, lon):

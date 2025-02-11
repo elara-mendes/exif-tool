@@ -6,11 +6,8 @@ from streamlit_folium import st_folium
 from geopy.geocoders import Nominatim
 from datetime import datetime
 from Functions.getWeather import getWeather
-from dotenv import load_dotenv
 import os
 
-
-load_dotenv()
 
 def upload_image():
     uploaded_file = st.file_uploader("Escolha uma imagem", type=["png", "jpg", "jpeg"])
@@ -169,12 +166,6 @@ if my_image and my_image.has_exif:
 
         # Exibir o mapa no Streamlit
         st_data = st_folium(m, width=700, height=500)
-        
-        # if 'counter' not in st.session_state:
-        #     st.session_state.counter = 0
-
-        # st.session_state.counter += 1
-        # st.write(f"A página foi carregada {st.session_state.counter} vezes.")
 
         weather = getWeather(latitude_test_str, longitude_test_str)
         
