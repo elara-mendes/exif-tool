@@ -3,11 +3,12 @@ import requests
 import folium
 import streamlit as st
 from streamlit_folium import st_folium
-from geopy.geocoders import Nominatim
 from datetime import datetime
 from Functions.getWeather import getWeather
 import os
 
+
+OPENCAGE_API_KEY = "YOUR API KEY HERE"
 
 def upload_image():
     uploaded_file = st.file_uploader("Escolha uma imagem", type=["png", "jpg", "jpeg"])
@@ -120,13 +121,12 @@ if my_image and my_image.has_exif:
     celular = getattr(my_image, 'make', "Marca não disponível")
     modelo = getattr(my_image, 'model', "Modelo não disponível")      
 
+    # OpenCage API
     if longitude_calc and latitude_calc:
         @st.cache_data
         def get_address_opencage(lat, lon):
             try:
-                with open(r"C:\Users\Elara\Documents\myAPI.txt", "r") as API_READ:
-                    my_api = API_READ.read()
-                api_key = "ab"
+                api_key = OPENCAGE_API_KEY
                 url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={api_key}"
                 response = requests.get(url)
                 data = response.json()
@@ -149,7 +149,7 @@ if my_image and my_image.has_exif:
             case n if 18 <= n.hour < 22:
                 st.sidebar.write("🌜 Boa Noite!")
             case _:
-                st.write("👋 Ola!")
+                st.sidebar.write("👋 Ola!")
 
         # Folium
         m = folium.Map(location=[latitude_test_str, longitude_test_str], zoom_start=15)

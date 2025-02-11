@@ -2,11 +2,11 @@ import requests
 import streamlit as st
 
 
-api_key = "Your API Key"
+OPENWEATHER_API_KEY = "YOUR API KEY HERE"
 
 @st.cache_data
 def getWeather(lat, lon):
-    url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric&lang=pt'
+    url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={OPENWEATHER_API_KEY}&units=metric&lang=pt'
     response = requests.get(url)
     data = response.json()
     
