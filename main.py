@@ -126,8 +126,7 @@ if my_image and my_image.has_exif:
         @st.cache_data
         def get_address_opencage(lat, lon):
             try:
-                api_key = OPENCAGE_API_KEY
-                url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={api_key}"
+                url = f"https://api.opencagedata.com/geocode/v1/json?q={lat}+{lon}&key={OPENCAGE_API_KEY}"
                 response = requests.get(url)
                 data = response.json()
                 
