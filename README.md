@@ -1,5 +1,7 @@
 # 📸 Image Metadata Explorer
 
+[English Ver.](./README_en.md)
+
 Este projeto permite analisar metadados de imagens, extraindo informações como localização GPS, data e hora da captura, além de exibir mapas e previsões do tempo para o local onde a foto foi tirada.
 
 ## 🚀 Funcionalidades
